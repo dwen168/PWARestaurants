@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Add Rating</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Add Rating</h1>
+
+      <form id="addForm" class="search-form">
+        <label for="restaurantInput">Restaurant Name</label>
+        <input id="restaurantInput" type="text" placeholder="Enter restaurant name" autocomplete="off" list="restaurants-list" />
+        <datalist id="restaurants-list"></datalist>
+        <div id="avgRating" class="message"></div>
+
+        <label for="ratingInput">Rating (0-5)</label>
+        <input id="ratingInput" type="number" min="0" max="5" step="0.1" value="5" />
+
+        <label for="commentInput">Comment</label>
+        <input id="commentInput" type="text" placeholder="Optional comment" />
+
+        <div id="descBlock" class="hidden">
+          <label for="restaurantDesc">New restaurant description</label>
+          <input id="restaurantDesc" type="text" placeholder="Enter a short description" />
+        </div>
+
+        <button type="submit">Submit Rating</button>
+      </form>
+
+      <div id="result" class="message"></div>
+      <p><a href="/index.html">Back to list</a></p>
+    </main>
+
+    <script src="/add_rating.js" type="module"></script>
+  </body>
+</html>

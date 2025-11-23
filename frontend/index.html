@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#3367D6" />
+    <title>PWA Restaurants</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>☕ Welcome to Restaurants Ratings</h1>
+      <p class="top-actions"><a href="/add_rating.html">+ Add a rating</a></p>
+
+      <form id="searchForm" class="search-form">
+        <label for="restaurantInput">Search restaurant</label>
+        <input id="restaurantInput" list="restaurants-list" placeholder="Start typing..." autocomplete="off" />
+        <datalist id="restaurants-list"></datalist>
+        <button type="submit">Show</button>
+      </form>
+
+      <section id="top-rated" class="top-rated">
+        <h2>Top Rated</h2>
+        <div id="topTiles" class="tiles"></div>
+      </section>
+
+      <section id="details" class="details hidden">
+        <h2 id="my-frame">The rating of your selected restaurant:</h2>
+        <h2 id="rest-name"></h2>
+        <p id="rest-desc"></p>
+        <div id="avgRating" class="message"></div>
+        <div class="ratings-header">
+          <h3>Ratings</h3>
+          <small>Click column headers to sort</small>
+        </div>
+        <div id="ratings"></div>
+      </section>
+
+      <div id="message" class="message"></div>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
