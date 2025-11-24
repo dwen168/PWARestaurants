@@ -8,36 +8,48 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <main class="container">
-      <h1>☕ Welcome to Restaurants Ratings</h1>
-      <p class="top-actions"><a href="/add_rating.html">+ Add a rating</a></p>
+  <body class="page_padding">
+    <header class="app-header" role="banner">
+      <div class="container inner">
+        <div class="brand" aria-label="App brand">PWA Restaurants <span>Ratings & Top Picks</span></div>
+        <nav class="nav-actions" aria-label="Primary">
+          <a href="/add_rating.html" class="nav-link">Add Rating</a>
+        </nav>
+      </div>
+    </header>
 
-      <form id="searchForm" class="search-form">
-        <label for="restaurantInput">Search restaurant</label>
-        <input id="restaurantInput" list="restaurants-list" placeholder="Start typing..." autocomplete="off" />
-        <datalist id="restaurants-list"></datalist>
-        <button type="submit">Show</button>
-      </form>
-
-      <section id="top-rated" class="top-rated">
-        <h2>Top Rated</h2>
-        <div id="topTiles" class="tiles"></div>
+    <main class="container" role="main" aria-live="polite">
+      <section class="card fade-in" aria-labelledby="search-heading">
+        <h1 id="search-heading">Discover & Explore restaurants</h1>
+        <form id="searchForm" class="search-form" role="search" aria-label="Search Restaurants">
+          <label for="restaurantInput">Search restaurant</label>
+          <input id="restaurantInput" list="restaurants-list" placeholder="Start typing..." autocomplete="off" />
+          <datalist id="restaurants-list"></datalist>
+          <button type="submit" class="btn-outline">Show</button>
+        </form>
+        <div id="message" class="message" aria-live="assertive"></div>
       </section>
 
-      <section id="details" class="details hidden">
-        <h2 id="my-frame">The rating of your selected restaurant:</h2>
+      <section id="top-rated" class="top-rated card fade-in" aria-labelledby="top-rated-title">
+        <div class="card-header">
+          <h2 id="top-rated-title">Top Rated</h2>
+          <small>click a tile to view details</small>
+        </div>
+        <div id="topTiles" class="tiles" aria-label="Top rated restaurant list"></div>
+      </section>
+
+      <section id="details" class="details hidden" aria-labelledby="my-frame">
+        <h2 id="my-frame">Selected Restaurant Rating:</h2>
         <h2 id="rest-name"></h2>
         <p id="rest-desc"></p>
-        <div id="avgRating" class="message"></div>
-        <div class="ratings-header">
+        <div id="avgRating" class="message" aria-live="polite"></div>
+        <div class="card-header ratings-header">
           <h3>Ratings</h3>
           <small>Click column headers to sort</small>
         </div>
-        <div id="ratings"></div>
+        <div id="ratings" aria-label="Ratings table"></div>
       </section>
 
-      <div id="message" class="message"></div>
     </main>
 
     <script src="/app.js" type="module"></script>
