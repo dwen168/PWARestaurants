@@ -181,10 +181,15 @@ h3 {
   margin-bottom: var(--space-4);
 }
 
-#addForm #commentInput,
+#addForm #commentInput {
+  padding: var(--space-3) var(--space-3);
+  resize: vertical;
+  font-family: inherit;
+  margin-bottom: var(--space-4);
+  width: 100%;
+}
 #addForm #restaurantDesc {
   padding: var(--space-3) var(--space-3);
-  min-height: calc(1.5em * 2 + var(--space-3) * 2);
   resize: vertical;
   font-family: inherit;
   margin-bottom: var(--space-4);
@@ -235,7 +240,8 @@ h3 {
 }
 .search-form input[type="text"], 
 .search-form input, 
-.search-form input[list] {
+.search-form input[list],
+.search-form textarea {
   flex: 1 1 240px; 
   padding: var(--space-2) var(--space-3); 
   border-radius: var(--radius-md); 
@@ -244,6 +250,7 @@ h3 {
   font-size: 0.95rem;
   outline: none;
   transition: all 0.2s ease;
+  color: var(--color-text);
 }
 .search-form input:focus { 
   box-shadow: 0 0 0 3px var(--focus);
@@ -301,9 +308,9 @@ h3 {
   box-shadow: var(--shadow-sm);
   min-height: 120px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-3);
+  justify-content: center;
 }
 .tiles .tile:hover { 
   transform: translateY(-8px); 
@@ -315,6 +322,8 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 66.66%; /* 2/3 of the tile height */
+  width: 100%; /* Occupy full width of the tile */
 }
 .tile-info {
   flex-grow: 1;
@@ -325,18 +334,18 @@ h3 {
   color: var(--color-text);
 }
 .tile-icon {
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
+  width: 100%; /* Occupy full width of container */
+  max-height: 100%; /* Ensure image scales within container */
+  object-fit: cover; /* Stretch to cover space, potentially cropping */
   border-radius: var(--radius-md);
 }
 .tile-icon-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 70px;
-  height: 70px;
-  font-size: 2.5rem;
+  width: 100%; /* Occupy full width of container */
+  height: 100%; /* Occupy full height of container */
+  font-size: 3rem; /* Adjust font size to fill space */
   background: var(--color-primary-50);
   border-radius: var(--radius-md);
 }
@@ -511,3 +520,17 @@ a:focus, button:focus, input:focus {
   margin: 0;
 }
 
+/* Details Section Icon Sizing */
+#rest-icon-container img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+#rest-icon-container span { /* For placeholder icon */
+  width: 80px;
+  height: 80px;
+  font-size: 3rem; /* Adjust as needed */
+  border-radius: var(--radius-md);
+}
