@@ -3,38 +3,46 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Add Rating</title>
+    <title>Add Rating - PWA Restaurants</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <main class="container">
-      <h1>Add Rating</h1>
+  <body class="page_padding">
+    <header class="app-header" role="banner">
+      <div class="container inner">
+        <div class="brand" aria-label="App brand">PWA Restaurants <span>Add Rating</span></div>
+        <nav class="nav-actions" aria-label="Primary">
+          <a href="/" class="nav-link">Home</a>
+        </nav>
+      </div>
+    </header>
 
-      <form id="addForm" class="search-form">
-        <label for="restaurantInput">Restaurant Name ( + new restaurant will be added if not found )</label>
-        <input id="restaurantInput" type="text" placeholder="Enter restaurant name" autocomplete="off" list="restaurants-list" />
-        <datalist id="restaurants-list"></datalist>
-        <div id="avgRating" class="message"></div>
+    <main class="container" role="main">
+        <section class="card fade-in">
+            <h1>Add a New Rating</h1>
+            <form id="addForm" class="search-form">
+              <label for="restaurantInput">Restaurant Name (a new restaurant will be added if not found)</label>
+              <input id="restaurantInput" type="text" placeholder="Enter restaurant name" autocomplete="off" list="restaurants-list" />
+              <datalist id="restaurants-list"></datalist>
+              <div id="avgRating" class="message"></div>
 
-        <label for="ratingInput">Rating (0-5)</label>
-        <input id="ratingInput" type="number" min="0" max="5" step="0.1" value="5" />
+              <label for="ratingInput">Rating (0-5)</label>
+              <input id="ratingInput" type="number" min="0" max="5" step="0.1" value="5" />
 
-        <label for="commentInput">Comment</label>
-        <input id="commentInput" type="text" placeholder="Optional comment" />
+              <label for="commentInput">Comment</label>
+              <input id="commentInput" type="text" placeholder="Optional comment" />
 
-        <div id="descBlock" class="hidden">
-          <label for="restaurantDesc">New restaurant description (optional)</label>
-          <input id="restaurantDesc" type="text" placeholder="Enter a short description" />
+              <div id="descBlock" class="hidden">
+                <label for="restaurantDesc">New restaurant description (optional)</label>
+                <input id="restaurantDesc" type="text" placeholder="Enter a short description" />
 
-          <label for="restaurantIcon">New restaurant icon (optional)</label>
-          <input id="restaurantIcon" name="icon" type="file" accept="image/*" />
-        </div>
+                <label for="restaurantIcon">New restaurant icon (optional)</label>
+                <input id="restaurantIcon" name="icon" type="file" accept="image/*" />
+              </div>
 
-        <button type="submit">Submit Rating</button>
-      </form>
-
-      <div id="result" class="message"></div>
-      <p><a href="/index.html">Back to list</a></p>
+              <button type="submit">Submit Rating</button>
+            </form>
+            <div id="result" class="message"></div>
+        </section>
     </main>
 
     <script src="/add_rating.js" type="module"></script>

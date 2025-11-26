@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin - PWA Restaurants</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .form-group { margin-bottom: 20px; }
+      .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+      .form-group input[type="text"], .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .hidden { display: none; }
+      #currentIcon img {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        margin-top: 10px;
+        object-fit: cover;
+      }
+      .btn-delete {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body class="page_padding">
+    <header class="app-header" role="banner">
+      <div class="container inner">
+        <div class="brand" aria-label="App brand">PWA Restaurants <span>Admin Panel</span></div>
+        <nav class="nav-actions" aria-label="Primary">
+          <a href="/" class="nav-link">Home</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" role="main">
+      <section class="card fade-in">
+        <h1>Restaurant Administration</h1>
+        <form id="selectForm">
+          <label for="restaurantSelect">Select Restaurant</label>
+          <select id="restaurantSelect" style="margin-bottom: 20px; width: 100%; padding: 10px;"></select>
+        </form>
+        <div id="message" class="message"></div>
+      </section>
+
+      <section id="edit-section" class="card hidden">
+        <h2>Edit Restaurant Details</h2>
+        <form id="editForm">
+          <div class="form-group">
+            <label for="restaurantName">Name</label>
+            <input type="text" id="restaurantName" required />
+          </div>
+          <div class="form-group">
+            <label for="restaurantDesc">Description</label>
+            <textarea id="restaurantDesc" rows="4"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="restaurantIcon">New Icon</label>
+            <input type="file" id="restaurantIcon" accept="image/*" />
+            <div id="currentIcon"></div>
+          </div>
+          <button type="submit" class="btn">Save Changes</button>
+        </form>
+      </section>
+
+      <section id="ratings-section" class="card hidden">
+        <h2>Manage Ratings</h2>
+        <div id="ratingsList"></div>
+      </section>
+    </main>
+
+    <script src="/admin.js" type="module"></script>
+  </body>
+</html>

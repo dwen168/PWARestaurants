@@ -5,6 +5,7 @@ const details = document.getElementById('details');
 const restName = document.getElementById('rest-name');
 const restDesc = document.getElementById('rest-desc');
 const ratingsEl = document.getElementById('ratings');
+const restIconContainer = document.getElementById('rest-icon-container');
 const avgRating = document.getElementById('avgRating');
 const sortSelect = document.getElementById('sortSelect');
 const message = document.getElementById('message');
@@ -176,6 +177,14 @@ function renderRatingsTable(rows){
 function renderDetails(payload){
   if(!payload || !payload.restaurant) return;
   details.classList.remove('hidden');
+
+  // Display restaurant icon and description
+  const restaurant = payload.restaurant;
+  if(restaurant.restaurant_icon){
+    restIconContainer.innerHTML = `<img src="/icons/${restaurant.restaurant_icon}" alt="${restaurant.restaurant_name}" class="tile-icon">`;
+  }else{
+    restIconContainer.innerHTML = '<span class="tile-icon-placeholder">🍽️</span>';
+  }
   restName.textContent = payload.restaurant.restaurant_name;
   restDesc.textContent = payload.restaurant.restaurant_description || '';
 
