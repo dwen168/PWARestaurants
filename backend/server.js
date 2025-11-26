@@ -95,7 +95,7 @@ app.get("/api/restaurant/:id", async (req, res) => {
     const id = Number(req.params.id);
     if (!Number.isInteger(id)) return res.status(400).json({ error: "Invalid restaurant id" });
 
-    const restaurant = await db.get(`SELECT restaurant_id, restaurant_name, restaurant_description FROM restaurant WHERE restaurant_id = ?`, [id]);
+    const restaurant = await db.get(`SELECT restaurant_id, restaurant_name, restaurant_description, restaurant_icon FROM restaurant WHERE restaurant_id = ?`, [id]);
     if (!restaurant) return res.status(404).json({ error: "Restaurant not found" });
 
     const ratings = await db.all(`SELECT rating_date, rating, comment FROM restaurant_rating WHERE restaurant_id = ? ORDER BY rating_date DESC`, [id]);
@@ -149,6 +149,143 @@ app.post('/api/restaurant/rating', upload.single('icon'), async (req, res) => {
     res.status(500).json({ error: 'Failed to add rating' });
   }
 });
+
+
+// Update restaurant (name, description, icon) by id
+app.put('/api/restaurant/:id', upload.single('icon'), async (req, res) => {
+  try {
+    const db = await dbPromise;
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ error: "Invalid restaurant id" });
+
+    const { restaurant_name, restaurant_description } = req.body || {};
+
+    //validate name
+    if (restaurant_name && (typeof restaurant_name !== 'string' || restaurant_name.trim().length === 0)) {
+      return res.status(400).json({ error: 'Invalid restaurant_name' });
+    }
+
+    //check if restaurant exists
+    const restaurant = await db.get(`SELECT restaurant_id, restaurant_icon FROM restaurant WHERE restaurant_id = ?`, [id]);
+    if (!restaurant) return res.status(404).json({ error: "Restaurant not found" });
+
+    //build update query
+    let updateFileds = [];
+    let updateValues = [];
+
+    if(restaurant_name){
+      updateFileds.push('restaurant_name = ?');
+      updateValues.push(restaurant_name.trim());
+    }
+
+    if(restaurant_description){
+      updateFileds.push('restaurant_description = ?');
+      updateValues.push(restaurant_description.trim());
+    }
+
+    // if new icon uploaded, delete old icon file and update db
+    if (req.file) {
+      updateFileds.push('restaurant_icon = ?');
+      updateValues.push(req.file.filename);
+      // delete old icon file if exists
+      if(restaurant.restaurant_icon){
+        const oldIconPath = path.join(iconsDir, restaurant.restaurant_icon);
+        fs.promises.unlink(oldIconPath).catch(err => {
+          console.error('Failed to delete old icon:', err);
+        });
+      }
+    }
+    
+    if(updateFileds.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+
+    updateValues.push(id);
+    await db.run(`UPDATE restaurant SET ${updateFileds.join(', ')} WHERE restaurant_id = ?`, updateValues);
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update restaurant' });
+  }
+});
+
+app.patch('/api/restaurant/:id', upload.single('icon'), async (req, res) => {
+  try {
+    const db = await dbPromise;
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(400).json({ error: "Invalid restaurant id" });
+
+    const { restaurant_name, restaurant_description } = req.body || {};
+
+    const restaurant = await db.get(`SELECT restaurant_id, restaurant_icon FROM restaurant WHERE restaurant_id = ?`, [id]);
+    if (!restaurant) return res.status(404).json({ error: "Restaurant not found" });
+
+    const fields = [];
+    const params = [];
+
+    if (restaurant_name) {
+      fields.push('restaurant_name = ?');
+      params.push(restaurant_name);
+    }
+    if (restaurant_description) {
+      fields.push('restaurant_description = ?');
+      params.push(restaurant_description);
+    }
+    if (req.file) {
+      fields.push('restaurant_icon = ?');
+      params.push(req.file.filename);
+      
+      if(restaurant && restaurant.restaurant_icon){
+        const oldPath = path.join(iconsDir, restaurant.restaurant_icon);
+        fs.unlink(oldPath, (err) => {
+          if (err) console.error('Failed to delete old icon:', err);
+        });
+      }
+    }
+
+    if (fields.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+
+    params.push(id);
+    const sql = `UPDATE restaurant SET ${fields.join(', ')} WHERE restaurant_id = ?`;
+
+    const result = await db.run(sql, params);
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Restaurant not found' });
+    }
+
+    res.json({ success: true, changes: result.changes });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update restaurant' });
+  }
+});
+
+// Delte a rating
+app.delete('/api/rating/:restaurant_id/:ratingDate', async (req, res) => {
+  try {
+    const db = await dbPromise;
+    const restaurant_id = Number(req.params.restaurant_id);
+    const ratingDate = decodeURIComponent(req.params.ratingDate);
+
+    if (!Number.isInteger(restaurant_id) ) {
+      return res.status(400).json({ error: "Invalid restaurant id" });
+    }
+
+    const result = await db.run(`DELETE FROM restaurant_rating WHERE restaurant_id = ? AND rating_date = ?`, [restaurant_id, ratingDate]);
+    if (result.changes === 0) {
+      return res.status(404).json({ error: "Rating not found" });
+    }
+
+    res.json({ success: true, message: 'Rating deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete rating' });
+  }
+});
+
 
 
 // Serve frontend for convenience
