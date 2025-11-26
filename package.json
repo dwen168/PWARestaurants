@@ -9,7 +9,8 @@
     "cors": "latest",
     "express": "latest",
     "sqlite": "latest",
-    "sqlite3": "latest"
+    "sqlite3": "latest",
+    "multer": "latest"
   },
   "description": "",
   "main": "index.js",

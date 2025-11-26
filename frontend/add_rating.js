@@ -4,6 +4,7 @@ const ratingInput = document.getElementById('ratingInput');
 const commentInput = document.getElementById('commentInput');
 const descBlock = document.getElementById('descBlock');
 const restaurantDesc = document.getElementById('restaurantDesc');
+const restaurantIcon = document.getElementById('restaurantIcon');
 
 const form = document.getElementById('addForm');
 const result = document.getElementById('result');
@@ -77,19 +78,25 @@ form.addEventListener('submit', async (e) => {
   if (!exists && descBlock) descBlock.classList.remove('hidden');
 
   try{
-    // Always POST, backend will create if not exists. Include description when provided
-    const body = { restaurant_name, rating, comment };
+    // use FormData to handle file upload and text fields
+    const formData = new FormData();
+    formData.append('restaurant_name', restaurant_name);
+    formData.append('rating', rating);
+    formData.append('comment', comment);
     if (!exists) {
       const descValue = restaurantDesc && restaurantDesc.value.trim()
         ? restaurantDesc.value.trim()
         : 'There is no description for this restaurant.';
-      body.restaurant_description = descValue;
+      formData.append('restaurant_description', descValue);
+    }
+    // add icon file if provided
+    if (restaurantIcon && restaurantIcon.files.length > 0) {
+      formData.append('icon', restaurantIcon.files[0]);
     }
 
     const res = await fetch(`/api/restaurant/rating`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: formData // Don't set Content-Type, browser will set it including boundary
     });
     const payload = await res.json();
     if (!res.ok) {
@@ -104,6 +111,7 @@ form.addEventListener('submit', async (e) => {
     commentInput.value = '';
     restaurantInput.value = '';
     if (restaurantDesc) restaurantDesc.value = '';
+    if (restaurantIcon) restaurantIcon.value = '';
     // Refresh restaurant names for next time
     loadRestaurantNames();
   }catch(err){

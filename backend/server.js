@@ -5,10 +5,45 @@ import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
+import multer from "multer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dbDir = path.join(__dirname, "..", "database");
 const dbFile = path.join(dbDir, "restaurant.db");
+const iconsDir = path.join(__dirname, "..", "frontend", "icons");
+
+// Ensure icons directory exists
+await fs.promises.mkdir(iconsDir, { recursive: true });
+
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, iconsDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, 'icon-' + uniqueSuffix + ext);
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
+  fileFilter: function (req, file, cb) {
+    const allowedTypes = ['.png', '.jpg', '.jpeg', '.gif', '.svg','.webp'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (!allowedTypes.includes(ext)) {
+      return cb(new Error('Only image files are allowed'));
+    }
+    cb(null, true);
+  }
+});
+
+
+
 const app = express();
 app.use(cors());
 app.use(express.json()); // For parsing application/json
@@ -36,7 +71,7 @@ app.get('/api/restaurants/top', async (req, res) => {
     const db = await dbPromise;
     const limit = Number(req.query.limit) || 3;
     const rows = await db.all(
-      `SELECT r.restaurant_id, r.restaurant_name, r.restaurant_description,
+      `SELECT r.restaurant_id, r.restaurant_name, r.restaurant_description, r.restaurant_icon,
               AVG(rr.rating) AS avg_rating, COUNT(rr.rating) AS cnt
        FROM restaurant r
        JOIN restaurant_rating rr ON r.restaurant_id = rr.restaurant_id
@@ -73,7 +108,7 @@ app.get("/api/restaurant/:id", async (req, res) => {
 });
 
 // Add a rating for a restaurant (by name, create if not exists)
-app.post('/api/restaurant/rating', async (req, res) => {
+app.post('/api/restaurant/rating', upload.single('icon'), async (req, res) => {
   try {
     const db = await dbPromise;
     let { restaurant_name, rating, comment, restaurant_description } = req.body || {};
@@ -94,7 +129,8 @@ app.post('/api/restaurant/rating', async (req, res) => {
       const desc = restaurant_description && typeof restaurant_description === 'string' && restaurant_description.trim().length > 0
         ? restaurant_description.trim()
         : 'There is no description for this restaurant.';
-      const result = await db.run(`INSERT INTO restaurant (restaurant_name, restaurant_description) VALUES (?, ?)`, [restaurant_name, desc]);
+      const iconPath = req.file ? req.file.filename : null;
+      const result = await db.run(`INSERT INTO restaurant (restaurant_name, restaurant_description, restaurant_icon) VALUES (?, ?, ?)`, [restaurant_name, desc, iconPath]);
       restaurant_id = result.lastID;
     } else {
       restaurant_id = restaurant.restaurant_id;

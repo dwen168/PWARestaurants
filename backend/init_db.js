@@ -24,7 +24,8 @@ const dbFile = path.join(dbDir, "restaurant.db");
     CREATE TABLE restaurant (
       restaurant_id INTEGER PRIMARY KEY AUTOINCREMENT,
       restaurant_name TEXT,
-      restaurant_description TEXT
+      restaurant_description TEXT,
+      restaurant_icon TEXT
     )
   `);
 

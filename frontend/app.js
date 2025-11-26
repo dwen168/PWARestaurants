@@ -39,7 +39,17 @@ async function loadTopRated(){
     list.forEach(r => {
       const tile = document.createElement('div');
       tile.className = 'tile';
-      tile.innerHTML = `<h4>${r.restaurant_name}</h4><div class="avg">${Number(r.avg_rating).toFixed(2)} ★</div><div class="count">(${r.cnt} ratings)</div>`;
+      const iconHtml = r.restaurant_icon 
+        ? `<img src="/icons/${r.restaurant_icon}" alt="${r.restaurant_name}" class="tile-icon">`
+        : `<span class="tile-icon-placeholder">🍽️</span>`;
+      tile.innerHTML = `
+        <div class="tile-icon-container">${iconHtml}</div>
+        <div class="tile-info">
+          <h4>${r.restaurant_name}</h4>
+          <div class="avg">${Number(r.avg_rating).toFixed(2)} ★</div>
+          <div class="count">(${r.cnt} ratings)</div>
+        </div>
+      `;
       tile.addEventListener('click', () => fetchAndShowById(r.restaurant_id));
       container.appendChild(tile);
     });
