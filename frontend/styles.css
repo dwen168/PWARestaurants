@@ -187,6 +187,8 @@ h3 {
   font-family: inherit;
   margin-bottom: var(--space-4);
   width: 100%;
+  min-height: 80px;
+  max-height: 80px;
 }
 #addForm #restaurantDesc {
   padding: var(--space-3) var(--space-3);
@@ -301,17 +303,18 @@ h3 {
 }
 .tiles .tile { 
   background: var(--color-surface);
-  padding: var(--space-3); 
+  padding: var(--space-2); 
   border-radius: var(--radius-lg); 
   border: 1px solid var(--color-border); 
   cursor: pointer; 
   transition: all 0.2s ease;
   box-shadow: var(--shadow-sm);
-  min-height: 120px;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-1);
 }
 .tiles .tile:hover { 
   transform: translateY(-8px); 
@@ -323,21 +326,25 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 66.66%; /* 2/3 of the tile height */
-  width: 100%; /* Occupy full width of the tile */
+  height: 66px;
+  width: calc(100% - 4px);
+  max-width: calc(100% - 4px);
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  margin: 0 2px;
 }
 .tile-info {
   flex-grow: 1;
 }
 .tiles .tile h4 {
-  margin: 0 0 var(--space-2) 0;
-  font-size: 1rem;
+  margin: 0 0 var(--space-1) 0;
+  font-size: 0.95rem;
   color: var(--color-text);
 }
 .tile-icon {
   width: 100%; /* Occupy full width of container */
-  max-height: 100%; /* Ensure image scales within container */
-  object-fit: cover; /* Stretch to cover space, potentially cropping */
+  height: 100%; /* Occupy full height of container */
+  object-fit: contain; /* Keep entire image visible within container */
   border-radius: var(--radius-md);
 }
 .tile-icon-placeholder {
@@ -351,10 +358,22 @@ h3 {
   border-radius: var(--radius-md);
 }
 .tiles .tile .avg {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--color-primary);
-  margin-bottom: var(--space-1);
+  margin-bottom: 0;
+  letter-spacing: 2px;
+}
+.tiles .tile .rating-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: 0;
+}
+.tiles .tile .rating-value {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  font-weight: 600;
 }
 .tiles .tile .count {
   font-size: 0.85rem;
@@ -422,6 +441,25 @@ h3 {
   color: var(--color-muted);
   font-size: 0.85rem;
   font-weight: 500;
+}
+
+#avgRating {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) 0;
+  background: transparent;
+}
+
+#avgRating strong {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+  margin-right: var(--space-2);
+}
+
+.rating-detail {
+  color: var(--color-muted);
+  font-size: 0.95rem;
 }
 
 /* Professional Table Styling */
@@ -504,6 +542,56 @@ table tbody tr:last-child {
 a:focus, button:focus, input:focus { 
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* Star rating */
+.star-rating {
+  display: flex;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 var(--space-4) 0;
+  user-select: none;
+}
+
+.star-container {
+  position: relative;
+  display: inline-block;
+  width: 1.5rem;
+  height: 2rem;
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.star-container:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.star-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-border);
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.star-filled {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 2;
+  transition: width 0.15s ease;
+}
+
+.star-container:hover .star-filled {
+  filter: drop-shadow(0 2px 4px rgba(30, 58, 138, 0.3));
 }
 
 .rest-header {

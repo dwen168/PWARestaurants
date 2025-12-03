@@ -45,19 +45,35 @@ const dbFile = path.join(dbDir, "restaurant.db");
   `);
 
 
-  const sampleData = [
-    // Restaurant A
+  const sampleData_restaurant = [
+    // Restaurant A, B, C with descriptions
     ["Restaurant A", "A restaurant offers Korean BBQ"],
     ["Restaurant B", "A restaurant offers Australian BBQ"],
     ["Restaurant C", "A restaurant offers Japanese BBQ"],
   ];
 
-  for (const item of sampleData) {
+  for (const item of sampleData_restaurant) {
     await db.run(
       `INSERT INTO restaurant (restaurant_name, restaurant_description) VALUES (?, ?)`,
       item
     );
   }
+
+
+  const sampleData_rating = [
+    // Restaurant A, B, C with ratings
+    [1, "01/12/2025 00:00:01", 4.5, "Great food!"],
+    [2, "01/12/2025 00:00:01", 4.5, "Great food!"],
+    [3, "01/12/2025 00:00:01", 3, "Just Ok!"]
+  ];
+
+  for (const item of sampleData_rating) {
+    await db.run(
+      `INSERT INTO restaurant_rating (restaurant_id, rating_date, rating, comment) VALUES (?, ?, ?, ?)`,
+      item
+    );
+  }
+
 
   console.log("✅ Database initialized with 3 restaurants and sample data");
   await db.close();

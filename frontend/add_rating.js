@@ -1,6 +1,7 @@
 const restaurantInput = document.getElementById('restaurantInput');
 const restaurantsList = document.getElementById('restaurants-list');
 const ratingInput = document.getElementById('ratingInput');
+const starRatingContainer = document.getElementById('starRating');
 const commentInput = document.getElementById('commentInput');
 const descBlock = document.getElementById('descBlock');
 const restaurantDesc = document.getElementById('restaurantDesc');
@@ -9,6 +10,66 @@ const restaurantIcon = document.getElementById('restaurantIcon');
 const form = document.getElementById('addForm');
 const result = document.getElementById('result');
 const avgRating = document.getElementById('avgRating');
+
+// Initialize star rating display
+function initStarRating() {
+  starRatingContainer.innerHTML = '';
+  const currentRating = Number(ratingInput.value);
+  for (let i = 1; i <= 5; i++) {
+    const starContainer = document.createElement('div');
+    starContainer.className = 'star-container';
+    starContainer.setAttribute('role', 'button');
+    starContainer.setAttribute('tabindex', '0');
+    
+    // Background star (always visible)
+    const bgStar = document.createElement('span');
+    bgStar.className = 'star-bg';
+    bgStar.textContent = '☆'; // Empty star
+    
+    // Filled star overlay
+    const filledStar = document.createElement('span');
+    filledStar.className = 'star-filled';
+    filledStar.textContent = '★'; // Full star
+    
+    // Determine fill percentage
+    let fillPercentage = 0;
+    if (currentRating >= i) {
+      fillPercentage = 100;
+    } else if (currentRating > i - 1) {
+      fillPercentage = (currentRating - (i - 1)) * 100;
+    }
+    filledStar.style.width = fillPercentage + '%';
+    
+    // Click handler on container - detect which half was clicked
+    starContainer.addEventListener('click', (e) => {
+      const rect = starContainer.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const isLeftHalf = x < rect.width / 2;
+      setRating(isLeftHalf ? i - 0.5 : i);
+    });
+    
+    // Keyboard handler
+    starContainer.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setRating(i);
+      }
+    });
+    
+    starContainer.appendChild(bgStar);
+    starContainer.appendChild(filledStar);
+    starRatingContainer.appendChild(starContainer);
+  }
+}
+
+function setRating(value) {
+  ratingInput.value = value;
+  initStarRating();
+}
+
+// Initialize on page load
+initStarRating();
+ratingInput.addEventListener('change', initStarRating);
 
 
 let restaurantNames = [];

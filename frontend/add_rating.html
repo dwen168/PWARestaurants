@@ -25,8 +25,9 @@
               <datalist id="restaurants-list"></datalist>
               <div id="avgRating" class="message"></div>
 
-              <label for="ratingInput">Rating (0-5)</label>
-              <input id="ratingInput" type="number" min="0" max="5" step="0.1" value="5" />
+              <label>Rating</label>
+              <div id="starRating" class="star-rating" aria-label="Select rating from 0 to 5 stars"></div>
+              <input id="ratingInput" type="hidden" value="5" />
 
               <label for="commentInput">Comment</label>
               <textarea id="commentInput" placeholder="Optional comment" rows="3"></textarea>

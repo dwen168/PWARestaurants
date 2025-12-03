@@ -12,6 +12,20 @@ const message = document.getElementById('message');
 
 let restaurants = [];
 
+// Convert numeric rating to star display (0-5 stars, 0.5 increment)
+function renderStars(rating) {
+  const numRating = Number(rating);
+  const fullStars = Math.floor(numRating);
+  const hasHalfStar = (numRating % 1) >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  
+  let starsHtml = '★'.repeat(fullStars);
+  if (hasHalfStar) starsHtml += '⯨'; // Half star character
+  starsHtml += '☆'.repeat(emptyStars);
+  
+  return starsHtml;
+}
+
 async function loadRestaurants(){
   try{
     const res = await fetch('/api/restaurants');
@@ -47,8 +61,11 @@ async function loadTopRated(){
         <div class="tile-icon-container">${iconHtml}</div>
         <div class="tile-info">
           <h4>${r.restaurant_name}</h4>
-          <div class="avg">${Number(r.avg_rating).toFixed(2)} ★</div>
-          <div class="count">(${r.cnt} ratings)</div>
+          <div class="avg" title="${Number(r.avg_rating).toFixed(2)}/5">${renderStars(r.avg_rating)}</div>
+          <div class="rating-info">
+            <span class="rating-value">${Number(r.avg_rating).toFixed(2)}</span>
+            <span class="count">(${r.cnt} ratings)</span>
+          </div>
         </div>
       `;
       tile.addEventListener('click', () => fetchAndShowById(r.restaurant_id));
@@ -166,7 +183,8 @@ function renderRatingsTable(rows){
   const tbody = document.createElement('tbody');
   rows.forEach(r => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${r.rating_date}</td><td>${r.rating}</td><td>${r.comment || ''}</td>`;
+    const starRating = renderStars(r.rating);
+    tr.innerHTML = `<td>${r.rating_date}</td><td><span title="${Number(r.rating).toFixed(1)}/5">${starRating}</span></td><td>${r.comment || ''}</td>`;
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
@@ -197,7 +215,8 @@ function renderDetails(payload){
 
   // Calculate and show average rating
   const avg = currentRows.reduce((sum, r) => sum + Number(r.rating), 0) / currentRows.length;
-  avgRating.textContent = `Average rating: ${avg.toFixed(2)} (${currentRows.length} ratings)`;
+  const starRating = renderStars(avg);
+  avgRating.innerHTML = `<strong>${starRating}</strong> <span class="rating-detail">${avg.toFixed(2)}/5 (${currentRows.length} ratings)</span>`;
 
   const sorted = sortRows(currentRows, currentSort);
   renderRatingsTable(sorted);
