@@ -544,7 +544,10 @@ table tbody td span[title] {
 .half-star-wrapper {
   position: relative;
   display: inline-block;
-  background: linear-gradient(90deg,#fbbf24 50%, #d1d5db 50%)
+  background: linear-gradient(90deg,#fbbf24 50%, #d1d5db 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 table tbody tr:last-child {
