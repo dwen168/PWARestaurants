@@ -73,7 +73,7 @@ async function loadTopRated(){
       tile.innerHTML = `
         <div class="tile-icon-container">${iconHtml}</div>
         <div class="tile-info">
-          <h4>${r.restaurant_name}</h4>
+          <h3>${r.restaurant_name}</h3>
           <div class="avg" title="${Number(r.avg_rating).toFixed(2)}/5">${renderStars(r.avg_rating)}</div>
           <div class="rating-info">
             <span class="rating-value">${Number(r.avg_rating).toFixed(2)}</span>
