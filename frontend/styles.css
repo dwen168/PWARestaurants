@@ -326,12 +326,11 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 66px;
-  width: calc(100% - 4px);
-  max-width: calc(100% - 4px);
+  height: 66.67%;
+  width: 100%;
+
   overflow: hidden;
   border-radius: var(--radius-md);
-  margin: 0 2px;
 }
 .tile-info {
   flex-grow: 1;
@@ -344,7 +343,7 @@ h3 {
 .tile-icon {
   width: 100%; /* Occupy full width of container */
   height: 100%; /* Occupy full height of container */
-  object-fit: contain; /* Keep entire image visible within container */
+  object-fit: cover; /* stretch to fill the container while maintaining aspect ratio */
   border-radius: var(--radius-md);
 }
 .tile-icon-placeholder {
@@ -358,12 +357,21 @@ h3 {
   border-radius: var(--radius-md);
 }
 .tiles .tile .avg {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--color-primary);
+  font-size: 1.3rem;
+  font-weight: 400;
   margin-bottom: 0;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  line-height: 1;
 }
+
+.tiles.tile.avg.stars-filled {
+  color:#fbbf24; /* Gold color for stars */
+}
+
+.tiles.tile.avg.stars-empty {
+  color:#d1d5db; /* Gray color for empty stars */
+}
+
 .tiles .tile .rating-info {
   display: flex;
   align-items: center;
@@ -451,10 +459,18 @@ h3 {
 }
 
 #avgRating strong {
-  font-size: 1.5rem;
-  letter-spacing: 2px;
-  color: var(--color-primary);
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+  line-height: 1;
   margin-right: var(--space-2);
+  font-weight: 400;
+}
+
+#avgRating strong .stars-filled{
+  color:#fbbf24; /* Gold color for stars */
+}
+#avgRating strong .stars-empty{
+  color:#d1d5db; /* Gray color for empty stars */
 }
 
 .rating-detail {
@@ -500,6 +516,35 @@ table tbody tr:hover {
 table tbody td {
   padding: var(--space-3) var(--space-4);
   color: var(--color-text);
+}
+
+
+/* Star display in table cells */
+table tbody td span[title] {
+  font-size: 1.2rem;
+  line-height: 1;
+  letter-spacing: 2px;
+  display: inline-block;
+}
+
+.stars-filled {
+  color: #fbbf24; /* Gold color for stars */
+}
+
+.stars-empty {
+  color: #d1d5db; /* Gray color for empty stars */
+}
+
+.stars-half {
+  position: relative;
+  display: inline-block;
+  color: #fbbf24; /* Gold color for half stars */
+}
+
+.half-star-wrapper {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg,#fbbf24 50%, #d1d5db 50%)
 }
 
 table tbody tr:last-child {
@@ -555,7 +600,7 @@ a:focus, button:focus, input:focus {
 .star-container {
   position: relative;
   display: inline-block;
-  width: 1.5rem;
+  width: 2rem;
   height: 2rem;
   cursor: pointer;
   font-size: 2rem;
@@ -572,7 +617,7 @@ a:focus, button:focus, input:focus {
   position: absolute;
   left: 0;
   top: 0;
-  color: var(--color-border);
+  color: #d1d5db; /* Gray color for empty star */
   display: flex;
   align-items: center;
   z-index: 1;
@@ -582,7 +627,7 @@ a:focus, button:focus, input:focus {
   position: absolute;
   left: 0;
   top: 0;
-  color: var(--color-primary);
+  color: #fbbf24; /* Gold color for filled star */
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -591,7 +636,7 @@ a:focus, button:focus, input:focus {
 }
 
 .star-container:hover .star-filled {
-  filter: drop-shadow(0 2px 4px rgba(30, 58, 138, 0.3));
+  filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.4));
 }
 
 .rest-header {

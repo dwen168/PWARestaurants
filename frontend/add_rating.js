@@ -11,6 +11,33 @@ const form = document.getElementById('addForm');
 const result = document.getElementById('result');
 const avgRating = document.getElementById('avgRating');
 
+// Convert numeric rating to star display (0-5 stars, 0.5 increment)
+function renderStars(rating) {
+  const numRating = Number(rating);
+  const fullStars = Math.floor(numRating);
+  const hasHalfStar = (numRating % 1) >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+  let starsHtml = '';
+
+  //filled stars
+  if (fullStars > 0) {
+    starsHtml += '<span class="stars-filled">'+'★'.repeat(fullStars)+'</span>';
+  }
+
+  //half star
+  if (hasHalfStar) {
+    starsHtml += '<span class="stars-filled"><span class="half-star-wrapper">★</span></span>'
+  }
+
+  //empty stars
+  if (emptyStars > 0) {
+    starsHtml += '<span class="stars-empty">'+'☆'.repeat(emptyStars)+'</span>';
+  }
+
+  return starsHtml;
+}
+
 // Initialize star rating display
 function initStarRating() {
   starRatingContainer.innerHTML = '';
@@ -110,7 +137,8 @@ async function showAverageRating(name) {
       return;
     }
     const avg = ratings.reduce((sum, r) => sum + Number(r.rating), 0) / ratings.length;
-    avgRating.textContent = `Average rating: ${avg.toFixed(2)} (${ratings.length} ratings)`;
+    const starRating = renderStars(avg);
+    avgRating.innerHTML = `<strong>${starRating}</strong> <span class="rating-detail">(${avg.toFixed(2)}/5 (${ratings.length} ratings)</span>`;
   } catch (err) {
     avgRating.textContent = '';
   }

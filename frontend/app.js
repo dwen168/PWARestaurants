@@ -19,9 +19,22 @@ function renderStars(rating) {
   const hasHalfStar = (numRating % 1) >= 0.5;
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
   
-  let starsHtml = '★'.repeat(fullStars);
-  if (hasHalfStar) starsHtml += '⯨'; // Half star character
-  starsHtml += '☆'.repeat(emptyStars);
+  let starsHtml = '';
+  
+  //filled stars
+  if (fullStars > 0) {
+    starsHtml += '<span class="stars-filled">'+'★'.repeat(fullStars)+'</span>';
+  }
+
+  //half star
+  if (hasHalfStar) {
+    starsHtml += '<span class="stars-filled"><span class="half-star-wrapper">★</span></span>'
+  }
+  
+  //empty stars
+  if (emptyStars > 0) {
+    starsHtml += '<span class="stars-empty">'+'☆'.repeat(emptyStars)+'</span>';
+  }
   
   return starsHtml;
 }
