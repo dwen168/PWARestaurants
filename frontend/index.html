@@ -2,61 +2,121 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="description" content="Browse restaurants and view ratings in this Progressive Web App.">
+    <meta name="description" content="Discover the best restaurants with ratings and reviews. A modern Progressive Web App for food enthusiasts.">
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#3367D6" />
-    <title>PWA Restaurants</title>
+    <meta name="theme-color" content="#1e3a8a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>ForkRating - Discover & Rate Great Restaurants</title>
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body class="page_padding">
+    <!-- App Header -->
     <header class="app-header" role="banner">
       <div class="container inner">
-        <div class="brand" aria-label="App brand">PWA Restaurants <span>Ratings & Top Picks</span></div>
-        <nav class="nav-actions" aria-label="Primary">
-          <a href="/add_rating.html" class="nav-link">Add Rating</a>
-          <a href="/admin.html" class="nav-link">Admin</a>
+        <div class="brand" aria-label="ForkRating">
+          <span class="brand-icon">🧑‍🍳🍴</span>
+          <div class="brand-text">
+            <strong>ForkRating</strong>
+            <span class="brand-tagline">Rate Your Dining Experience</span>
+          </div>
+        </div>
+        <nav class="nav-actions" aria-label="Primary navigation">
+          <a href="/add_rating.html" class="nav-link" aria-label="Add a new rating">
+            <span class="nav-icon">⭐</span>
+            <span>Add Rating</span>
+          </a>
+          <a href="/admin.html" class="nav-link" aria-label="Admin panel">
+            <span class="nav-icon">⚙️</span>
+            <span>Admin</span>
+          </a>
         </nav>
       </div>
     </header>
 
-    <main class="container" role="main" aria-live="polite">
-      <section class="card fade-in" aria-labelledby="search-heading">
-        <h1 id="search-heading">Discover & Explore restaurants</h1>
+    <!-- Main Content -->
+    <main class="container" role="main">
+      <!-- hero search section-->
+      <section class="hero-section card fade-in" aria-labelledby="search-heading">
+        <div class="hero-content">
+          <h1 id="search-heading">
+            <span class="hero-emoji">🔍</span>
+            Discover & Explore Restaurants
+          </h1>
+          <p class="hero-subtitle">Find your next favorite dining spot from our curated collection</p>
+        </div>
+
         <form id="searchForm" class="search-form" role="search" aria-label="Search Restaurants">
-          <label for="restaurantInput">Search restaurant</label>
-          <input id="restaurantInput" list="restaurants-list" placeholder="Start typing..." autocomplete="off" />
-          <datalist id="restaurants-list"></datalist>
-          <button type="submit" class="btn-outline">Show</button>
+          <div class="search-input-group">
+            <label for ="restaurantInput" class="visually-hidden">Restaurant name</label>
+            <input
+              id="restaurantInput"
+              list="restaurants-list"
+              placeholder="search for a restaurant..."
+              autocomplete="off"
+              aria-describedby="search-hint" />
+              <datalist id="restaurants-list"> </datalist>
+          </div>
+          <button type="submit" class="btn-primary">
+            <span>Search</span>
+            <span class="btn-icon">🔎</span>
+            </button>
         </form>
-        <div id="message" class="message" aria-live="assertive"></div>
+
+        <div id="message" class="message" aria-live="assertive" role="status"></div>
       </section>
 
+      <!-- Top Rated Restaurants Section -->
       <section id="top-rated" class="top-rated card fade-in" aria-labelledby="top-rated-title">
         <div class="card-header">
-          <h2 id="top-rated-title">Top 3 Rated Restaurants</h2>
-          <small>click a tile to view details</small>
+          <div class="section-title-group">
+            <h2 id="top-rated-title">
+              <span class="section-icon">🏆</span>
+              Top 3 Rated Restaurants
+            </h2>
+            <small>click any restaurant to view detailed ratings</small>
+          </div>
         </div>
         <div id="topTiles" class="tiles" aria-label="Top rated restaurant list"></div>
       </section>
 
-      <section id="details" class="details hidden" aria-labelledby="my-frame">
-        <h2 id="my-frame">Selected Restaurant Rating:</h2>
+      <!-- Restaurant Details Section -->
+      <section id="details" class="details hidden" aria-labelledby="details-heading">
+        <div class = "details-badge">Restaurant Details</div>
+
         <div class="rest-header">
-          <div id="rest-icon-container"></div>
-          <h2 id="rest-name"></h2>
+          <div id="rest-icon-container" class="rest-icon-wrapper"></div>
+          <div class="rest-info">
+            <h2 id="rest-name" class="rest-name"></h2>
+            <p id="rest-desc" class="rest-description"></p>
+          </div>
         </div>
-        <p id="rest-desc"></p>
-        <div id="avgRating" class="message" aria-live="polite"></div>
-        <div class="card-header ratings-header">
-          <h3>Ratings</h3>
-          <small>Click column headers to sort</small>
+
+        <div id="avgRating" class="avg-rating-display" aria-live="polite"></div>
+
+        <div class="ratings-section">
+          <div class="card-header ratings-header">
+          <h3>
+            <span class="section-icon">📊</span>
+            User Ratings & reviews
+          </h3>
+          <small class="section-hint">Click column headers to sort</small>
         </div>
-        <div id="ratings" aria-label="Ratings table"></div>
+        <div id="ratings" class="ratings-table-container" aria-label="Ratings table"></div>
       </section>
 
     </main>
 
+    <!-- footer -->
+    <footer class="app-footer">
+      <div class="container">
+        <p class="footer-text">
+          <span class="footer-icon">🍽️</span>
+          ForkRaing ©️ 2025 | Built with ❤️ for food enthusiasts.
+        </p>
+      </div>
+    </footer>
     <script src="/app.js" type="module"></script>
   </body>
 </html>
