@@ -75,16 +75,17 @@ h3 {
 
 /* App header */
 .app-header {
-  background: #ffffff;
-  border-bottom: 1px solid var(--color-border);
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid rgba(203,213,225,0.5);
   color: var(--color-text);
   padding: var(--space-4) 0;
   position: sticky;
   top: 0;
   z-index: 40;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
-  backdrop-filter: blur(8px);
-  background: rgba(225, 225, 225, 0.95);
+  box-shadow: 0 2px 8px 0 rgba(15,23,42,0.6), 0 1px 3px 0 rgba(15,23,42,0.4);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  transition: all 0.3s ease;
 }
 
 .app-header .inner {
@@ -98,11 +99,23 @@ h3 {
   display: flex; 
   align-items: center; 
   gap: var(--space-3);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.brand:hover {
+  transform: translateY(-1px);
 }
 
 .brand-icon {
   font-size: 2.5rem; 
   line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(30,58,138,0.15));
+  transition: transform 0.2s ease;
+}
+
+.brand:hover .brand-icon {
+  transform: scale(1.1.05);
 }
 
 .brand-text {
@@ -113,24 +126,26 @@ h3 {
 
 .brand-text strong { 
   font-weight: 700; 
-  font-size: 1.2rem; 
+  font-size: 1.25rem; 
   letter-spacing: -0.5px;
   line-height: 1.2;
-  color: var(--color-text);
+  color: #1e3a8a;
 }
 
-.barnd-tagline {
+.brand-tagline {
   font-weight: 500;
-  color: var(--color-muted);
-  font-size: 0.8rem; 
+  color: #64748b;
+  font-size: 0.75rem; 
   letter-spacing: 0.3px;
+  line-height: 1.2;
 }
 
 .nav-actions { 
   display: flex; 
-  gap: var(--space-3); 
+  gap: var(--space-2); 
   align-items: center; 
 }
+
 .nav-link { 
   color: var(--color-text);
   text-decoration: none; 
@@ -139,28 +154,53 @@ h3 {
   background: transparent;
   padding: var(--space-2) var(--space-4); 
   border-radius: var(--radius-md); 
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
   border: 1.5px solid transparent;
   display: flex;
   align-items: center;
   gap: var(--space-2);
   position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(30,58,138,0.1) transparent);
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover::before {
+  left: 100%;
 }
 
 .nav-icon{
   font-size: 1.1rem;
   line-height: 1;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
+  filter: grayscale(0.3);
 }
 
 .nav-link:hover { 
-  background: var(--color-primary-50);
+  background: linear-gradient(135deg, var(--color-primary-50) 0%, rgba(30,58,138,0.08) 100%);
   border-color: var(--color-primary);
   color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px 0 rgba(30,58,138,0.15);
 }
 
 .nav-link:hover .nav-icon {
-  transform: scale(1.1);
+  transform: scale(1.15) rotate(5deg);
+  filter: grayscale(0);
+}
+
+.nav-link:active { 
+  transform: translateY(0);
+  filter: grayscale(0);
 }
 
 /* Cards */
