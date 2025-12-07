@@ -13,16 +13,20 @@ PWA Restaurants is a Progressive Web App (PWA) designed for food enthusiasts to 
 ```
 PWA Restaurants/
 ├── backend/                # Backend server files
-│   ├── init_db.js         # Database initialization script
-│   ├── server.js          # Express server
+│   ├── init_db.js          # Database initialization script
+│   ├── server.js           # Express server
 ├── database/               # Database files
 ├── frontend/               # Frontend files
-│   ├── index.html         # Main HTML file
-│   ├── styles.css         # CSS styles
-│   ├── app.js             # Main JavaScript file
-│   ├── manifest.json      # PWA manifest
-│   ├── service-worker.js  # Service worker for offline support
-│   ├── icons/             # App icons
+│   ├── index.html          # Home Page HTML file
+│   ├── add_rating.html     # Add a rating Page HTML file
+│   ├── admin.html          # Admin Page HTML file
+│   ├── styles.css          # CSS styles
+│   ├── app.js              # Home Page JavaScript file
+│   ├── add_rating.js       # Add a rating Page JavaScript file
+│   ├── admin.js            # Admin Page JavaScript file
+│   ├── manifest.json       # PWA manifest
+│   ├── service-worker.js   # Service worker for offline support
+│   ├── icons/              # App icons
 ├── package.json            # Node.js dependencies
 ├── README.md               # Project documentation
 ```
