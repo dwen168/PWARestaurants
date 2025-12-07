@@ -97,13 +97,22 @@
 
         <div class="ratings-section">
           <div class="card-header ratings-header">
-          <h3>
-            <span class="section-icon">📊</span>
-            User Ratings & reviews
-          </h3>
-          <small class="section-hint">Click column headers to sort</small>
-        </div>
-        <div id="ratings" class="ratings-table-container" aria-label="Ratings table"></div>
+            <h3>
+              <span class="section-icon">📊</span>
+              User Ratings & reviews
+            </h3>
+            <small class="section-hint">Click column headers to sort</small>
+          </div>
+          <div class="date-filter-container">
+            <label for="dateFilter">Filter by Date Range:</label>
+            <div class="filter-inputs">
+              <input type="date" id="dateFilterFrom" aria-label="From date">
+              <span class="filter-separator">to</span>
+              <input type="date" id="dateFilterTo" aria-label="To date">
+              <button id="clearDateFilter" class="btn-secondary" aria-label="Clear date filter">Clear</button>
+            </div>
+          </div>
+          <div id="ratings" class="ratings-table-container" aria-label="Ratings table"></div>
       </section>
 
     </main>

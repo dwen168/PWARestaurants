@@ -256,6 +256,63 @@ if (sortSelect) {
   });
 }
 
+// Date filter functionality
+const dateFilterFrom = document.getElementById('dateFilterFrom');
+const dateFilterTo = document.getElementById('dateFilterTo');
+const clearDateFilter = document.getElementById('clearDateFilter');
+
+function filterByDateRange(){
+  const fromDate = dateFilterFrom.value ? new Date(dateFilterFrom.value) : null;
+  const toDate = dateFilterTo.value ? new Date(dateFilterTo.value) : null;
+  
+  let filtered = currentRows;
+  
+  if (fromDate || toDate) {
+    filtered = currentRows.filter(r => {
+      const ratingDate = parseRatingDate(r.rating_date);
+      
+      if (fromDate) {
+        // Set fromDate to beginning of day (00:00:00)
+        const fromDateStart = new Date(fromDate);
+        fromDateStart.setHours(0, 0, 0, 0);
+        if (ratingDate < fromDateStart) return false;
+      }
+      if (toDate) {
+        // Set toDate to end of day (23:59:59)
+        const toDateEnd = new Date(toDate);
+        toDateEnd.setHours(23, 59, 59, 999);
+        if (ratingDate > toDateEnd) return false;
+      }
+      return true;
+    });
+  }
+  
+  const sorted = sortRows(filtered, currentSort);
+  renderRatingsTable(sorted);
+  
+  // Update the count display
+  if (filtered.length === 0 && (fromDate || toDate)) {
+    ratingsEl.innerHTML = '<p>No ratings found in the selected date range.</p>';
+  }
+}
+
+if (dateFilterFrom) {
+  dateFilterFrom.addEventListener('change', filterByDateRange);
+}
+
+if (dateFilterTo) {
+  dateFilterTo.addEventListener('change', filterByDateRange);
+}
+
+if (clearDateFilter) {
+  clearDateFilter.addEventListener('click', () => {
+    dateFilterFrom.value = '';
+    dateFilterTo.value = '';
+    const sorted = sortRows(currentRows, currentSort);
+    renderRatingsTable(sorted);
+  });
+}
+
 
 
 // Init
